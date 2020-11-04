@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const host = 'http://localhost:1337';
+
 export function getList() {
-  return axios.get('http://localhost:1337/products')
+  return axios.get(`${host}/products`)
     .then(data => data)
     .catch(err => {
       console.log(err);
@@ -10,7 +12,7 @@ export function getList() {
 }
 
 export function postOrder(data) {
-  return axios.post('http://localhost:1337/orders', data)
+  return axios.post(`${host}/orders`, data)
     .then(res => res)
     .catch(err => {
       console.log(err);
