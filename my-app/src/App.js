@@ -1,6 +1,6 @@
 import { Container, Row, Col, Button, Tabs, Tab, Form, InputGroup } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { FaShoppingCart, FaShoppingBag } from 'react-icons/fa';
+import { FaShoppingCart, FaShoppingBag, FaReact, FaNodeJs } from 'react-icons/fa';
 import './App.css';
 import { useState, useEffect } from 'react';
 import { getList, postOrder } from './services/services'
@@ -163,51 +163,59 @@ function App() {
 
 
   return (
-    <Container>
-      <Row>
-        <Col className="header">
-          <div className="logo"><FaShoppingBag color="red" size="3em" /> Shopoo</div>
-          <div><Button onClick={() => setKey("cart")} size="lg" disabled={!isCartEmpty()}><FaShoppingCart size="1em" /> {getTotalInCart()} </Button></div>
-        </Col>
-      </Row>
-      <Tabs activeKey={key}
-        onSelect={(k) => setKey(k)}>
-        <Tab eventKey="shopping" title="Shopping">
-          <Row>
+    <>
+      <Container>
+        <Row>
+          <Col className="header">
+            <div className="logo"><FaShoppingBag color="red" size="3em" /> Shopoo</div>
+            <div><Button onClick={() => setKey("cart")} size="lg" disabled={!isCartEmpty()}><FaShoppingCart size="1em" /> {getTotalInCart()} </Button></div>
+          </Col>
+        </Row>
+        <Tabs activeKey={key}
+          onSelect={(k) => setKey(k)}>
+          <Tab eventKey="shopping" title="Shopping">
+            <Row>
+              {products.length > 0 && (
+                <Products products={products} handleChangeQuantity={handleChangeQuantity} />
+              )}
+
+            </Row>
+          </Tab>
+          <Tab eventKey="cart" title="Cart" disabled={!isCartEmpty()}>
             {products.length > 0 && (
-              <Products products={products} handleChangeQuantity={handleChangeQuantity} />
+              <Cart products={products} handleChangeQuantity={handleChangeQuantity}
+                handleRemove={handleRemove} getTotalPrice={getTotalPrice} isAllowAction
+                onCheckOut={() => setKey('checkout')}
+              />
             )}
 
-          </Row>
-        </Tab>
-        <Tab eventKey="cart" title="Cart" disabled={!isCartEmpty()}>
-          {products.length > 0 && (
-            <Cart products={products} handleChangeQuantity={handleChangeQuantity}
-              handleRemove={handleRemove} getTotalPrice={getTotalPrice} isAllowAction
-              onCheckOut={() => setKey('checkout')}
-            />
-          )}
+          </Tab>
+          <Tab eventKey="checkout" title="CheckOut" disabled={!isCartEmpty()}>
+            <div>Shipping Address</div>
+            <div className="line"></div>
+            <div>
+              <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                {renderForm()}
+                {products.length > 0 && (
+                  <Cart products={products} handleChangeQuantity={handleChangeQuantity} handleRemove={handleRemove} getTotalPrice={getTotalPrice} />
+                )}
+                <div className="right section" style={{ paddingTop: '2%' }}><Button type="submit">Confirm Order</Button></div>
+              </Form>
+            </div>
+          </Tab>
+          <Tab eventKey="complete" title="Complete" disabled={!isCompleted}>
+            <Complete handleComplete={handleComplete} />
+          </Tab>
+        </Tabs>
+        <div className="section"></div>
 
-        </Tab>
-        <Tab eventKey="checkout" title="CheckOut" disabled={!isCartEmpty()}>
-          <div>Shipping Address</div>
-          <div className="line"></div>
-          <div>
-            <Form noValidate validated={validated} onSubmit={handleSubmit}>
-              {renderForm()}
-              {products.length > 0 && (
-                <Cart products={products} handleChangeQuantity={handleChangeQuantity} handleRemove={handleRemove} getTotalPrice={getTotalPrice} />
-              )}
-              <div className="right" style={{ paddingTop: '2%' }}><Button type="submit">Confirm Order</Button></div>
-            </Form>
-          </div>
-        </Tab>
-        <Tab eventKey="complete" title="Complete" disabled={!isCompleted}>
-          <Complete handleComplete={handleComplete} />
-        </Tab>
-      </Tabs>
-
-    </Container>
+      </Container>
+      <div className="footer">
+        <h2>Powered By</h2>
+        <a href="https://reactjs.org/" target="_blank" rel="noopener noreferrer"><FaReact size="3em" color="white" style={{ paddingRight: '10px' }} /></a>
+        <a href="https://nodejs.org/en/" target="_blank" rel="noopener noreferrer"><FaNodeJs size="3em" color="white" /></a>
+      </div>
+    </>
   );
 }
 

@@ -21,6 +21,7 @@ const Cart = ({ products, handleChangeQuantity, handleRemove, getTotalPrice, isA
           {isAllowAction && (
             <Col><div><Button onClick={() => handleRemove(product.id)}>Remove</Button></div></Col>
           )}
+          <div className="line-alt"></div>
         </Row>
       }
     }));
@@ -40,7 +41,7 @@ const Cart = ({ products, handleChangeQuantity, handleRemove, getTotalPrice, isA
       <div className="right">Total <NumberFormat value={getTotalPrice()} thousandSeparator displayType='text' /></div>
       <div className="right">Tax (7%) <NumberFormat value={Math.round((getTotalPrice() * 0.07 + Number.EPSILON) * 100) / 100} thousandSeparator displayType='text' /></div>
       <div className="right">Gross Price <NumberFormat value={getTotalPrice() + (getTotalPrice() * 0.07)} thousandSeparator displayType='text' /></div>
-      {isAllowAction && (<div className="right"><Button onClick={onCheckOut}>Check Out</Button></div>)}
+      {isAllowAction && (<div className="right section"><Button onClick={onCheckOut}>Check Out</Button></div>)}
     </>
   )
 }
