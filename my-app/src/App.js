@@ -20,6 +20,7 @@ function App() {
 
   useEffect(() => {
     let mounted = true;
+    document.title = "Shopoo - Megamall"
     getList()
       .then(items => {
         if (mounted) {
@@ -51,6 +52,9 @@ function App() {
       product.quantity += num;
     } else {
       product.quantity = num > 0 ? num : 0;
+    }
+    if (product.quantity > product.stock) {
+      product.quantity = product.stock;
     }
     setProducts([...products]);
   }
