@@ -4,7 +4,7 @@ import NumberFormat from 'react-number-format';
 
 const Products = ({ products, handleChangeQuantity }) => {
   return products.filter(product => product.enable).map(prod => (
-    <Col xs={12} md={4}>
+    <Col xs={12} md={4} className="card-list">
       <Card style={{ width: '18rem' }}>
         <Card.Img variant="top" src={prod.imageUrl} />
         <Card.Body>
